@@ -1,0 +1,41 @@
+form {
+    border: 1px solid black;
+    background-color: palegoldenrod;
+    width: fit-content;
+    padding: 10px;
+    display: table-cell;
+    margin: 10px;
+}
+
+.updateForm {
+    border:none;
+    background-color: none;
+    position:absolute;
+    left: 50px;
+    top: 150px;
+    z-index: 10;
+    padding: none;
+    margin: none;
+}
+
+#forms{
+    width:500px;
+    display:table
+}
+
+table {
+    border: 1px solid black;
+    margin: 5px;
+}
+tr {
+    border: 1px solid gray;
+    background-color: rgb(202, 238, 238);
+}
+.theadr {
+    border: 1px solid gray;
+    background-color: rgb(93, 226, 226);
+}
+
+caption {
+    font-size: x-large;
+}

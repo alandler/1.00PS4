@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<head>
+  <title>Book Database Management</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+
+
+
+<body>
+
+  <h1>Book Database Management</h1>
+
+  <div id="forms">
+    <form method="POST" action="/add_genre">
+      <h3>ADD GENRE</h3>
+      <label for="gname">New Genre Name</label><br>
+      <input type="text" id="gname" name="gname" required><br>
+      <label for="gdesc">Description</label><br>
+      <input type="text" id="gdesc" name="gdesc"><br>
+      <label for="gfic">Is it fiction?</label><br>
+      <input type="checkbox" id="gfic" name="gfic"><br>
+      <button type="submit">Submit!</button>
+    </form>
+
+    <form method="POST" action="/add_author">
+      <h3>ADD AUTHOR</h3>
+      <label for="fname">First name:</label><br>
+      <input type="text" id="fname" name="fname" required><br>
+      <label for="lname">Last name:</label><br>
+      <input type="text" id="lname" name="lname" required><br>
+      <label for="aphone">Phone:</label><br>
+      <input type="text" id="aphone" name="aphone"><br>
+      <label for="aemail">Email:</label><br>
+      <input type="text" id="aemail" name="aemail"><br>
+      <label for="aaddress">Address:</label><br>
+      <input type="text" id="aaddress" name="aaddress"><br>
+      <label for="acity">City:</label><br>
+      <input type="text" id="acity" name="acity"><br>
+      <label for="astate">State:</label><br>
+      <input type="text" id="astate" name="astate"><br>
+      <button type="submit">Submit!</button>
+    </form>
+
+    <form method="POST" action="/add_publisher">
+      <h3>ADD PUBLISHER</h3>
+      <label for="pname" required>Name:</label><br>
+      <input type="text" id="pname" name="pname"><br>
+      <label for="paddress">Address:</label><br>
+      <input type="text" id="paddress" name="paddress"><br>
+      <label for="pcity">City:</label><br>
+      <input type="text" id="pcity" name="pcity"><br>
+      <label for="pstate">State:</label><br>
+      <input type="text" id="pstate" name="pstate"><br>
+      <button type="submit">Submit!</button>
+    </form>
+
+    <form method="POST" action="/add_book">
+      <h3>ADD BOOK</h3>
+      <label for="pID">Publisher ID:</label><br>
+      <input type="number" id="pID" name="pID"><br>
+      <label for="gID">Genre ID:</label><br>
+      <input type="number" id="gID" name="gID"><br>
+      <label for="title">Title:</label><br>
+      <input type="text" id="title" name="title" required><br>
+      <label for="unitprice">Unit Price:</label><br>
+      <input type="number" step=".01" min="0" id="unitprice" name="unitprice"><br>
+      <label for="contract">Contract:</label><br>
+      <input type="text" id="contract" name="contract"><br>
+      <label for="comments">Comments:</label><br>
+      <input type="text" id="comments" name="comments"><br>
+      <label for="pdate">Publication Date:</label><br>
+      <input type="date" id="pdate" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" value="2017-06-01" name="pdate"><br>
+      <label for="aID">Author ID:</label><br>
+      <input type="number" id="aID" name="aID"><br>
+      <label for="royalty" step=".01" min="0" max="100">Royalty:</label><br>
+      <input type="number" id="royalty" name="royalty"><br>
+      <button type="submit">Submit!</button>
+    </form>
+  </div>
+
+  <div id="tables">
+
+    <table class="table table-striped">
+      <caption>Books</caption>
+      <thead>
+        <tr class="theadr">
+          <th>BookID</th>
+          <th>PublisherID</th>
+          <th>GenreID</th>
+          <th>Title</th>
+          <th>Unit Price</th>
+          <th>Contract</th>
+          <th>Comments</th>
+          <th>Publication Date</th>
+          <th>AuthorID</th>
+          <th>Royalty</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      {% for book in data['Books'] %}
+      <tr>
+        {% for item in book %}
+        <td> {{item}} </td>
+        {% endfor %}
+        <td><button class="edit" style="font-size:12px" onclick="handleEdit(this)"> <i
+          class="fa fa-pencil"></i></button></td>
+    <td><button class="delete" style="font-size:12px" onclick="handleDelete(this)"> <i
+          class="fa fa-times"></i></button></td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <table class="table table-striped">
+      <caption>Authors</caption>
+      <thead>
+        <tr class="theadr">
+          <th>AuthorID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>State</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      {% for author in data['Authors'] %}
+      <tr>
+        {% for item in author %}
+        <td> {{item}} </td>
+        {% endfor %}
+        <td><button class="edit" style="font-size:12px" onclick="handleEdit(this)"> <i
+          class="fa fa-pencil"></i></button></td>
+    <td><button class="delete" style="font-size:12px" onclick="handleDelete(this)"> <i
+          class="fa fa-times"></i></button></td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <table class="table table-striped">
+      <caption>Genres</caption>
+      <thead>
+        <tr class="theadr">
+          <th>ID</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Is Fiction?</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      </tbody>
+      {% for genre in data['Genres'] %}
+      <tr>
+        {% for item in genre %}
+        <td> {{item}} </td>
+        {% endfor %}
+        <td><button class="edit" style="font-size:12px" onclick="handleEdit(this)"> <i
+          class="fa fa-pencil"></i></button></td>
+    <td><button class="delete" style="font-size:12px" onclick="handleDelete(this)"> <i
+          class="fa fa-times"></i></button></td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+    <table class="table table-striped">
+      <caption>Publishers</caption>
+      <thead>
+        <tr class="theadr">
+          <th>PublisherID</th>
+          <th>Name</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>State</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for publisher in data['Publishers'] %}
+        <tr>
+          {% for item in publisher %}
+          <td> {{item}} </td>
+          {% endfor %}
+          <td><button class="edit" style="font-size:12px" onclick="handleEdit(this)"> <i
+                class="fa fa-pencil"></i></button></td>
+          <td><button class="delete" style="font-size:12px" onclick="handleDelete(this)"> <i
+                class="fa fa-times"></i></button></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+  <script>
+    var dbEntities = {
+      "Publishers": [{ "type": "number", "entity": "pID", "label": "Publisher ID"}, { "type": "text", "entity": "pname", "label": "Name"}, { "type": "text", "entity": "paddress", "label": "Address" }, { "type": "text", "entity": "pcity", "label": "City"}, { "type": "text", "entity": "pstate", "label": "State"}],
+      "Books": [{ "type": "number", "entity": "bID", "label": "Book ID"}, { "type": "number", "entity": "pID", "label": "Publisher ID"}, { "type": "number", "entity": "gID", "label": "Genre ID"}, { "type": "text", "entity": "title", "label": "Title"}, { "type": "number", "entity": "unitprice", "label": "Unit Price"},
+      { "type": "text", "entity": "contract", "label": "Contract"}, { "type": "text", "entity": "comments", "label": "Comments"}, { "type": "date", "entity": "pdate", "label": "Published Date"}, { "type": "number", "entity": "aID", "label": "Author ID"}, { "type": "number", "entity": "royalty", "label": "Royalty"},],
+      "Authors": [{ "type": "number", "entity": "aID", "label": "Author ID"}, { "type": "text", "entity": "fname", "label": "Author First Name"}, { "type": "text", "entity": "lname", "label": "Last Name"}, { "type": "number", "entity": "aphone", "label": "Phone"}, { "type": "text", "entity": "aemail", "label": "Email"}, 
+      { "type": "text", "entity": "aaddress", "label": "Address"}, { "type": "text", "entity": "acity", "label": "City"}, { "type": "text", "entity": "astate", "label": "State"}],
+      "Genres": [{ "type": "number", "entity": "gID", "label": "Genre ID"}, { "type": "text", "entity": "gname", "label": "Genre Name"}, { "type": "text", "entity": "gdesc", "label": "Description"}, { "type": "checkbox", "entity": "gfic", "label": "Is Fiction?"}]
+    }
+    
+    function handleEdit(element) {
+      //Get Table element and POST URL
+      var tableElement = element.parentNode.parentNode.parentNode.parentNode
+      var whichTable = tableElement.caption.innerHTML
+      var postURL = "/update_" + whichTable.toLowerCase().substring(0, whichTable.length - 1)
+
+      //Generate Form
+      var updateForm = document.createElement("form")
+      // updateForm.onblur = function() {removeForm()}
+      updateForm.method  ="POST"
+      updateForm.action = postURL
+      updateForm.classList.add('updateForm')
+      //Create form inputs dynamically
+      var i = 0
+      console.log("Editing element:")
+      console.log(element)
+      console.log(element.parentNode.parentNode)
+      for (var obj of dbEntities[whichTable]) {
+        console.log(i)
+        var label = document.createElement("label")
+        label.htmlFor = obj["entity"]
+        label.innerHTML = obj["label"]
+        var input = document.createElement("input")
+        input.type = obj["type"]
+        input.name = obj["entity"]
+
+        if (input.type =="number"){
+          input.defaultValue = parseInt(element.parentNode.parentNode.cells[i].innerHTML)
+        }
+        else if (input.type =="checkbox"){
+          input.checked = (element.parentNode.parentNode.cells[i].innerHTML==1) ? true : false
+        } else{
+        input.defaultValue = element.parentNode.parentNode.cells[i].innerHTML
+        }
+        if (i==0){
+          input.readOnly =true
+        }
+
+        input.style.width = element.parentNode.parentNode.cells[i].offsetWidth+"px"
+        updateForm.appendChild(input)
+        i++
+      }
+      //Submit Button
+      var submitButton = document.createElement("button")
+      submitButton.innerHTML = "Submit"
+      submitButton.type = "submit"
+      updateForm.append(submitButton)
+
+      //Cancel Button
+      var cancelButton = document.createElement("button")
+      cancelButton.innerHTML = "Cancel"
+      cancelButton.onclick = function () {removeForm()}
+      updateForm.append(cancelButton)
+
+      //Position and add to DOM
+      updateForm.style.position = "absolute"
+      // updateForm.style.left = (element.parentNode.parentNode.cells[0].offsetWidth-10)+"px"
+      updateForm.style.left = "-10px"
+      updateForm.style.top = element.parentNode.parentNode.getBoundingClientRect().top+window.scrollY +"px"
+      document.body.appendChild(updateForm);
+    }
+
+    function removeForm(){
+      document.getElementsByClassName("updateForm")[0].remove()
+    }
+    
+    function handleDelete(element) {
+      //Get Table element and POST URL
+      var tableElement = element.parentNode.parentNode.parentNode.parentNode
+      var whichTable = tableElement.caption.innerHTML
+      var postURL = "/delete_" + whichTable.toLowerCase().substring(0, whichTable.length - 1)
+      console.log(postURL)
+
+      const Http = new XMLHttpRequest()
+      Http.open("POST", postURL, true);
+      Http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      Http.send('id=' + element.parentNode.parentNode.cells[0].innerHTML)
+      element.parentNode.parentNode.remove();
+    }
+
+  </script>
+
+</body>
+
+
+</html>
